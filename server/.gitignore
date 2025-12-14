@@ -5,3 +5,4 @@ __pycache__/
 *.pem
 *.key
 *.crt
+openrouter.py
