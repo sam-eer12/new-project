@@ -1,9 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from google import genai
 import os
 from dotenv import load_dotenv
+import PIL.Image
+import io
 
 load_dotenv()
 
@@ -30,6 +32,17 @@ def generate_content():
         model="gemini-2.5-flash", contents="Explain how AI works in a few words"
     )
     return {"text": response.text}
+
+@app.post("/analyze-leaf")
+async def analyze_leaf(file: UploadFile = File(...)):
+    image_data = await file.read()
+    image = PIL.Image.open(io.BytesIO(image_data))
+    prompt = "Look at this crop leaf. Identify the disease and suggest 3 organic cures."
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=[prompt, image]
+    )
+    return {"analysis": response.text}
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, ssl_keyfile="key.pem", ssl_certfile="cert.pem")
