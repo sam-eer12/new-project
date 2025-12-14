@@ -24,7 +24,7 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 def read_root():
     return {"message": "Agriculture Tracker Backend is Running!"}
 
-@app.post("/generate")
+@app.get("/generate")
 def generate_content():
     response = client.models.generate_content(
         model="gemini-2.5-flash", contents="Explain how AI works in a few words"
@@ -33,4 +33,4 @@ def generate_content():
 
 # This allows you to run the server with: python main.py
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, ssl_keyfile="key.pem", ssl_certfile="cert.pem")
