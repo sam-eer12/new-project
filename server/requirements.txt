@@ -10,4 +10,7 @@ python-dotenv==1.0.1
 plyer==2.1.0
 twilio==9.4.1
 
+flask==3.0.3
+flask-cors==4.0.1
+
 #source venv/bin/activate
