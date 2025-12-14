@@ -59,7 +59,7 @@ async def analyze_leaf_url(item: ImageURL):
     image = PIL.Image.open(io.BytesIO(image_data)) 
     prompt = "Look at this crop leaf. Identify the disease and suggest 3 organic cures."
     ai_response = client.models.generate_content(
-        model="gemini-2.0-flash", 
+        model="gemini-2.5-flash", 
         contents=[prompt, image]
     )
     return {"analysis": ai_response.text}
