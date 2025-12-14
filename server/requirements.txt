@@ -9,6 +9,7 @@ passlib[bcrypt]
 python-dotenv==1.0.1
 plyer==2.1.0
 twilio==9.4.1
+requests
 
 
 #source venv/bin/activate
