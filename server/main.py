@@ -8,6 +8,7 @@ import requests
 from pydantic import BaseModel
 import PIL.Image
 import io
+import pymongo
 
 load_dotenv()
 
@@ -23,6 +24,10 @@ app.add_middleware(
 )
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+myclient = pymongo.MongoClient(os.getenv("MONGODB_URI"))
+db = myclient["agriculture-tracker"]
+col = db["login"]
+
 
 class ImageURL(BaseModel):
     url: str
