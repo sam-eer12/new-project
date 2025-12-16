@@ -15,10 +15,11 @@ load_dotenv()
 
 app = FastAPI()
 
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"], 
+    allow_origins=[frontend_url], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -105,4 +106,5 @@ async def verify_token(request: TokenRequest):
     except:
         return {"message": "Invalid token"}
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, ssl_keyfile="key.pem", ssl_certfile="cert.pem")
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True, ssl_keyfile="key.pem", ssl_certfile="cert.pem")
