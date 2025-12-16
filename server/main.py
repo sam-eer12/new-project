@@ -93,5 +93,6 @@ async def login(user: User):
 
     access_token = security.create_access_token(data={"username": user.username})
     return {"message": "Login successful", "access_token": access_token}
+    
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, ssl_keyfile="key.pem", ssl_certfile="cert.pem")
