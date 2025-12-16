@@ -9,6 +9,7 @@ from pydantic import BaseModel
 import PIL.Image
 import io
 import pymongo
+import security
 
 load_dotenv()
 
@@ -36,14 +37,14 @@ class ImageURL(BaseModel):
 def read_root():
     return {"message": "Agriculture Tracker Backend is Running!"}
 
-@app.get("/generate")
+@app.get("/api/generate")
 def generate_content():
     response = client.models.generate_content(
         model="gemini-2.5-flash", contents="Explain how AI works in a few words"
     )
     return {"text": response.text}
 
-@app.post("/analyze-leaf")
+@app.post("/api/analyze-leaf")
 async def analyze_leaf(file: UploadFile = File(...)):
     image_data = await file.read()
     image = PIL.Image.open(io.BytesIO(image_data))
@@ -54,7 +55,7 @@ async def analyze_leaf(file: UploadFile = File(...)):
     )
     return {"analysis": response.text}
 
-@app.post("/analyze-leaf-url")
+@app.post("/api/analyze-leaf-url")
 async def analyze_leaf_url(item: ImageURL):
     print(f"Downloading image from: {item.url}")
     response = requests.get(item.url) 
@@ -68,6 +69,16 @@ async def analyze_leaf_url(item: ImageURL):
         contents=[prompt, image]
     )
     return {"analysis": ai_response.text}
+
+@app.post("/api/register")
+async def register(user: User, password: str):
+    find_user = col.find_one({"username": user.username})
+    if find_user:
+        return {"message": "User already exists"}
+    hashed_password = security.get_password_hash(password)
+    new_user  = {"username": user.username, "password": hashed_password}
+    col.insert_one(new_user)
+    return {"message": "User registered successfully"}
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, ssl_keyfile="key.pem", ssl_certfile="cert.pem")
