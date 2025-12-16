@@ -93,6 +93,13 @@ async def login(user: User):
 
     access_token = security.create_access_token(data={"username": user.username})
     return {"message": "Login successful", "access_token": access_token}
-    
+
+@app.post("/api/verify-token")
+async def verify_token(token: str):
+    try:
+        payload = security.verify_token(token)
+        return {"message": "Token is valid", "payload": payload}
+    except:
+        return {"message": "Invalid token"}
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, ssl_keyfile="key.pem", ssl_certfile="cert.pem")
