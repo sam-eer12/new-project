@@ -36,6 +36,9 @@ class User(BaseModel):
 class ImageURL(BaseModel):
     url: str
 
+class TokenRequest(BaseModel):
+    token: str
+
 @app.get("/")
 def read_root():
     return {"message": "Agriculture Tracker Backend is Running!"}
@@ -95,9 +98,9 @@ async def login(user: User):
     return {"message": "Login successful", "access_token": access_token}
 
 @app.post("/api/verify-token")
-async def verify_token(token: str):
+async def verify_token(request: TokenRequest):
     try:
-        payload = security.verify_token(token)
+        payload = security.verify_token(request.token)
         return {"message": "Token is valid", "payload": payload}
     except:
         return {"message": "Invalid token"}
