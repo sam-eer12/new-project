@@ -83,5 +83,15 @@ async def register(user: User):
     col.insert_one(new_user)
     return {"message": "User registered successfully"}
 
+@app.post("/api/login")
+async def login(user: User):
+    find_user = col.find_one({"username": user.username})
+    if not find_user:
+        return {"message": "User not found"}
+    if not security.verify_password(user.password, find_user["password"]):
+        return {"message": "Incorrect password"}
+
+    access_token = security.create_access_token(data={"username": user.username})
+    return {"message": "Login successful", "access_token": access_token}
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, ssl_keyfile="key.pem", ssl_certfile="cert.pem")
