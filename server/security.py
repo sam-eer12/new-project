@@ -1,6 +1,7 @@
 from passlib.context import CryptContext
 import os
 from dotenv import load_dotenv
+from jose import jwt
 load_dotenv()
 
 pwd_context = CryptContext(
