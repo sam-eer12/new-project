@@ -29,6 +29,9 @@ myclient = pymongo.MongoClient(os.getenv("MONGODB_URI"))
 db = myclient["agriculture-tracker"]
 col = db["login"]
 
+class User(BaseModel):
+    username: str
+    password: str
 
 class ImageURL(BaseModel):
     url: str
@@ -71,11 +74,11 @@ async def analyze_leaf_url(item: ImageURL):
     return {"analysis": ai_response.text}
 
 @app.post("/api/register")
-async def register(user: User, password: str):
+async def register(user: User):
     find_user = col.find_one({"username": user.username})
     if find_user:
         return {"message": "User already exists"}
-    hashed_password = security.get_password_hash(password)
+    hashed_password = security.get_password_hash(user.password)
     new_user  = {"username": user.username, "password": hashed_password}
     col.insert_one(new_user)
     return {"message": "User registered successfully"}
