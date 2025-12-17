@@ -105,6 +105,8 @@ async def verify_token(request: TokenRequest):
         return {"message": "Token is valid", "payload": payload}
     except:
         return {"message": "Invalid token"}
+
+        
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
     uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True, ssl_keyfile="key.pem", ssl_certfile="cert.pem")
