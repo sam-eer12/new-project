@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import Snowfall from 'react-snowfall';
 const Home = () => {
   return (
+    <>
+    <Snowfall color='#5C9CB0' />
     <div className="min-h-screen bg-gradient-to-bottom from-green-50 to-white">
       <nav className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -99,6 +101,7 @@ const Home = () => {
         </div>
       </footer>
     </div>
+    </>
   );
 };
 

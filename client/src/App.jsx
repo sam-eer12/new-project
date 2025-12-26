@@ -7,10 +7,13 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 
+
 const App = () => {
   return (
     <AuthProvider>
+     
       <Router>
+        
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
