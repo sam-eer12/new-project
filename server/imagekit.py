@@ -11,3 +11,4 @@ imagekit = ImageKit(
 )
 
 imagekit.create_folder(folder_name='crops', parent_folder_path='/')
+
