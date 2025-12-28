@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Snowfall from 'react-snowfall';
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <>
     <Snowfall color='#5C9CB0' />
@@ -10,7 +11,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <span onClick={navigate('/')} className="text-2xl font-bold text-green-600">🌾 AgriTracker</span>
+              <span onClick={() => navigate('/')} className="text-2xl font-bold text-green-600 cursor-pointer">🌾 AgriTracker</span>
             </div>
             <div className="flex items-center gap-4">
               <Link
