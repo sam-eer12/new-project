@@ -11,5 +11,5 @@ plyer==2.1.0
 twilio==9.4.1
 requests
 pymongo
-
+imagekitio
 #source venv/bin/activate
